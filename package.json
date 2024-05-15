@@ -1,7 +1,7 @@
 {
 	"name": "@kitschpatrol/tweakpane-plugin-camerakit",
 	"version": "0.3.0",
-	"description": "Enjoyable camera flavored controls for Tweakpane with externalized dependencies",
+	"description": "A fork of @tweakpane/plugin-camerakit with build optimizations.",
 	"main": "dist/tweakpane-plugin-camerakit.js",
 	"type": "module",
 	"types": "dist/types/index.d.ts",
@@ -17,6 +17,11 @@
 	"publishConfig": {
 		"access": "public"
 	},
+	"keywords": [
+		"npm-package",
+		"tweakpane",
+		"tweakpane-plugin"
+	],
 	"scripts": {
 		"prepare": "run-s clean build",
 		"prepublishOnly": "npm test",
