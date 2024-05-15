@@ -1,91 +1,30 @@
-# tweakpane-plugin-camerakit
-Enjoyable camera flavored controls for [Tweakpane].
+# @kitschpatrol/tweakpane-plugin-camerakit
 
-![](https://user-images.githubusercontent.com/602961/128620339-ea6928a7-7d68-44b1-b298-a47b1a54abae.jpg)
+[![NPM Package @kitschpatrol/tweakpane-plugin-camerakit](https://img.shields.io/npm/v/@kitschpatrol/tweakpane-plugin-camerakit.svg)](https://npmjs.com/package/@kitschpatrol/tweakpane-plugin-camerakit)
 
+## Overview
 
-## Installation
+**This is a fork of [Hiroki Kokubun](https://cocopon.me/)'s [@tweakpane/plugin-camerakit
+](https://github.com/tweakpane/plugin-camerakit) with externalized dependencies.**
 
+This allows for smaller bundled file sizes in projects using multiple Tweakpane plugins.
 
-### Browser
-```html
-<script type="module">
-import {Pane} from './tweakpane.min.js';
-import * as TweakpaneCamerakitPlugin from 'tweakpane-plugin-camerakit.min.js';
+It is published to NPM primarily for the [_Svelte Tweakpane UI_](https://kitschpatrol.com/svelte-tweakpane-ui) project, and will be kept in sync with the upstream version of the plugin, with minimal changes other than dependency externalization.
 
-const pane = new Pane();
-pane.registerPlugin(TweakpaneCamerakitPlugin);
-</script>
-```
+For most use cases, you probably don't want this fork!
 
+## Background
 
-### Package
-```js
-import {Pane} from 'tweakpane';
-import * as CamerakitPlugin from '@tweakpane/plugin-camerakit';
+The [Rollup](https://rollupjs.org) configuration provided in the [Tweakpane plugin template](https://github.com/tweakpane/plugin-template) does not externalize [`@tweakpane/core`](https://github.com/cocopon/tweakpane/tree/main/packages/core) as a production dependency.
 
-const pane = new Pane();
-pane.registerPlugin(CamerakitPlugin);
-```
+Instead, it gets built into the single-file plugin artifact, which is what's published to NPM and imported by plugin consumers. This makes it easy to import as an ES module from a URL, but means that larger projects importing multiple Tweakpane plugins end up with duplicate copies of the `@tweakpane/core` code, adding about ~100 Kb to the final minified build for each plugin after the first.
 
+Externalizing this dependency allows build tools like [vite](https://vitejs.dev) to share a single instance of the `@tweakpane/core` code across multiple plugins.
 
-## Usage
-```js
-// Ring input
-pane.addBinding(params, 'key', {
-  // Ring control
-  view: 'cameraring',
-  // Appearance of the ring view: 0 | 1 | 2
-  series: 0,
-});
-```
+If you're not using a bundler, direct ESM imports from URLs can still work if needed by defining the `@tweakpane/core` dependency in an [importmap](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script/type/importmap).
 
-```js
-// Configuring a scale
-pane.addBinding(params, 'key', {
-  view: 'cameraring',
-  series: 0,
-  // Scale unit
-  unit: {
-    // Pixels for the unit
-    pixels: 50,
-    // Number of ticks for the unit
-    ticks: 10,
-    // Amount of a value for the unit
-    value: 0.2,
-  },
-  // You can use `min`, `max`, `step` same as a number input
-  min: 1,
-  step: 0.02,
-});
-```
+## Implementation notes
 
-```js
-// Wide
-pane.addBinding(params, 'key', {
-  view: 'cameraring',
-  series: 0,
-  // Hide a text input and widen the ring view
-  wide: true,
-});
-```
+Note the package name change from `@tweakpane/plugin-camerakit` to `@kitschpatrol/tweakpane-plugin-camerakit`.
 
-```js
-// Wheel input
-pane.addBinding(params, 'key', {
-  view: 'camerawheel',
-  // Amount of a value per pixel
-  amount: 100,
-});
-```
-
-
-## Version compatibility
-
-| Tweakpane | Camerakit |
-| --------- | --------- |
-| 4.x       | 0.3.x     |
-| 3.x       | 0.2.x     |
-
-
-[tweakpane]: https://github.com/cocopon/tweakpane/
+PNPM is used as the package manager.
