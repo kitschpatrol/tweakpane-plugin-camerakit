@@ -65,7 +65,7 @@ export const RingInputPlugin: InputBindingPlugin<
 			? {
 					initialValue: exValue,
 					params: result,
-			  }
+				}
 			: null;
 	},
 	binding: {

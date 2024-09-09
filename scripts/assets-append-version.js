@@ -2,7 +2,7 @@
 /* eslint-env node */
 
 import Fs from 'fs';
-import Glob from 'glob';
+import * as Glob from 'glob';
 import Path from 'path';
 
 const Package = JSON.parse(
@@ -10,8 +10,8 @@ const Package = JSON.parse(
 );
 
 const PATTERN = 'dist/*';
-
 const paths = Glob.sync(PATTERN);
+
 paths.forEach((path) => {
 	const fileName = Path.basename(path);
 	if (Fs.statSync(path).isDirectory()) {

@@ -1,76 +1,80 @@
 {
 	"name": "@kitschpatrol/tweakpane-plugin-camerakit",
 	"version": "0.3.0",
-	"description": "A fork of @tweakpane/plugin-camerakit with build optimizations.",
-	"main": "dist/tweakpane-plugin-camerakit.js",
 	"type": "module",
-	"types": "dist/types/index.d.ts",
+	"description": "A fork of @tweakpane/plugin-camerakit with build optimizations.",
+	"repository": "github:kitschpatrol/tweakpane-plugin-camerakit",
+	"homepage": "https://github.com/kitschpatrol/tweakpane-plugin-camerakit/",
 	"author": "cocopon",
 	"license": "MIT",
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/kitschpatrol/tweakpane-plugin-camerakit.git"
+	"packageManager": "pnpm@9.10.0+sha512.73a29afa36a0d092ece5271de5177ecbf8318d454ecd701343131b8ebc0c1a91c487da46ab77c8e596d6acf1461e3594ced4becedf8921b074fbd8653ed7051c",
+	"engines": {
+		"node": ">=18.0.0",
+		"pnpm": ">=9.0.0"
 	},
+	"main": "dist/tweakpane-plugin-camerakit.js",
+	"types": "dist/types/index.d.ts",
 	"files": [
 		"dist"
 	],
-	"publishConfig": {
-		"access": "public"
-	},
 	"keywords": [
-		"npm-package",
+		"pnpm-package",
 		"tweakpane",
 		"tweakpane-plugin"
 	],
 	"scripts": {
-		"prepare": "run-s clean build",
-		"prepublishOnly": "npm test",
-		"start": "run-p watch server",
-		"test": "eslint --ext .ts 'src/**/*.ts'",
 		"assets": "run-s clean build assets:version assets:zip",
 		"assets:version": "node scripts/assets-append-version.js",
 		"assets:zip": "zip -x '*types*' -j -r $(node scripts/dist-name.js)-$(cat package.json | npx json version).zip dist",
-		"clean": "rimraf dist *.tgz *.zip",
 		"build": "run-p build:*",
 		"build:dev": "rollup --config rollup.config.js",
 		"build:dts": "tsc --project src/tsconfig-dts.json",
 		"build:prod": "rollup --config rollup.config.js --environment BUILD:production",
+		"clean": "rimraf dist *.tgz *.zip",
 		"format": "run-p format:*",
 		"format:scss": "prettier --parser scss --write 'src/sass/**/*.scss'",
 		"format:ts": "eslint --ext .ts --fix 'src/**/*.ts'",
+		"prepare": "run-s clean build",
+		"prepublishOnly": "pnpm test",
 		"server": "http-server -c-1 -o /test/browser.html",
+		"start": "run-p watch server",
+		"test": "eslint --ext .ts 'src/**/*.ts'",
 		"watch": "run-p watch:*",
-		"watch:sass": "onchange --initial --kill 'src/sass/**/*.scss' -- npm run build:dev",
-		"watch:ts": "onchange --initial --kill 'src/**/*.ts' -- npm run build:dev"
+		"watch:sass": "onchange --initial --kill 'src/sass/**/*.scss' -- pnpm run build:dev",
+		"watch:ts": "onchange --initial --kill 'src/**/*.ts' -- pnpm run build:dev"
+	},
+	"peerDependencies": {
+		"tweakpane": "^4.0.4"
+	},
+	"dependencies": {
+		"@tweakpane/core": "^2.0.4"
 	},
 	"devDependencies": {
-		"@rollup/plugin-node-resolve": "^13.3.0",
-		"@rollup/plugin-replace": "^2.4.2",
-		"@rollup/plugin-typescript": "^8.5.0",
-		"@typescript-eslint/eslint-plugin": "^5.62.0",
-		"@typescript-eslint/parser": "^5.62.0",
-		"autoprefixer": "^10.4.19",
+		"@rollup/plugin-node-resolve": "^15.2.3",
+		"@rollup/plugin-replace": "^5.0.7",
+		"@rollup/plugin-terser": "^0.4.4",
+		"@rollup/plugin-typescript": "^11.1.6",
+		"@typescript-eslint/eslint-plugin": "^8.5.0",
+		"@typescript-eslint/parser": "^8.5.0",
+		"autoprefixer": "^10.4.20",
 		"eslint": "^8.57.0",
-		"eslint-config-prettier": "^8.10.0",
-		"eslint-plugin-prettier": "^4.2.1",
-		"eslint-plugin-simple-import-sort": "^7.0.0",
+		"eslint-config-prettier": "^9.1.0",
+		"eslint-plugin-prettier": "^5.2.1",
+		"eslint-plugin-simple-import-sort": "^12.1.1",
+		"glob": "^11.0.0",
 		"http-server": "^14.1.1",
 		"npm-run-all": "^4.1.5",
 		"onchange": "^7.1.0",
-		"postcss": "^8.4.38",
-		"prettier": "^2.8.8",
-		"rimraf": "^3.0.2",
-		"rollup": "^2.79.1",
+		"postcss": "^8.4.47",
+		"prettier": "^3.3.3",
+		"prettier-plugin-pkg": "^0.18.1",
+		"rimraf": "^6.0.1",
+		"rollup": "^4.21.3",
 		"rollup-plugin-cleanup": "^3.2.1",
-		"rollup-plugin-terser": "^7.0.2",
-		"sass": "^1.77.1",
-		"typescript": "^4.9.5"
+		"sass": "^1.78.0",
+		"typescript": "^5.6.2"
 	},
-	"dependencies": {
-		"@tweakpane/core": "^2.0.3"
-	},
-	"peerDependencies": {
-		"tweakpane": "^4.0.3"
-	},
-	"packageManager": "pnpm@9.1.1+sha512.14e915759c11f77eac07faba4d019c193ec8637229e62ec99eefb7cf3c3b75c64447882b7c485142451ee3a6b408059cdfb7b7fa0341b975f12d0f7629c71195"
+	"publishConfig": {
+		"access": "public"
+	}
 }

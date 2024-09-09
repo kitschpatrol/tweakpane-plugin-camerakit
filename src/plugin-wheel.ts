@@ -39,7 +39,7 @@ export const WheelInputPlugin: InputBindingPlugin<
 			? {
 					initialValue: exValue,
 					params: result,
-			  }
+				}
 			: null;
 	},
 	binding: {
