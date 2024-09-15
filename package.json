@@ -18,9 +18,9 @@
 		"dist"
 	],
 	"keywords": [
-		"pnpm-package",
 		"tweakpane",
-		"tweakpane-plugin"
+		"tweakpane-plugin",
+		"npm-package"
 	],
 	"scripts": {
 		"assets": "run-s clean build assets:version assets:zip",
