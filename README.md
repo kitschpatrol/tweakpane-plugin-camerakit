@@ -31,14 +31,4 @@ PNPM is used as the package manager.
 
 ## Versioning
 
-In addition to the dependency externalization change, this plugin fork also includes assorted dependency updates. In an effort to stay in sync with future upstream versions, intra-minor-version releases of the fork are tagged as "beta" of the next upstream version is released, at which point a version-matching release may be made.
-
-Example sequence:
-
-1. 2023-08-10 Upstream release: `0.3.0`
-1. 2023-05-15 Fork release matching upstream: `0.3.0`
-1. 2024-09-15 Fork release with dependency updates: `0.3.1-beta.1`
-1. _Hypothetical 2024-11-22_ Fork release with dependency updates: `0.3.1-beta.2`
-1. _Hypothetical 2024-12-24_ Upstream release: `0.3.1`
-1. _Hypothetical 2024-12-24_ Fork release matching upstream: `0.3.1`
-1. _Hypothetical 2025-01-24_ Fork release with dependency updates: `0.3.2-beta.1`
+In addition to the dependency externalization change, this fork also includes assorted dependency updates. In an effort to stay in sync with future upstream versions, intra-minor-version releases of the fork are tagged as "betas" of what would / will be the next minor upstream release.
