@@ -1,6 +1,6 @@
 {
 	"name": "@kitschpatrol/tweakpane-plugin-camerakit",
-	"version": "0.3.1-beta.2",
+	"version": "0.3.1-beta.3",
 	"type": "module",
 	"description": "A fork of @tweakpane/plugin-camerakit with build optimizations.",
 	"repository": {
