@@ -12,8 +12,7 @@ import {RingUnit} from './view/ring.js';
 export type RingSeries = 0 | 1 | 2;
 
 export interface RingInputParams
-	extends BaseInputParams,
-		NumberTextInputParams {
+	extends BaseInputParams, NumberTextInputParams {
 	view: 'cameraring';
 
 	series?: RingSeries;
@@ -22,8 +21,7 @@ export interface RingInputParams
 }
 
 export interface WheelInputParams
-	extends BaseInputParams,
-		NumberTextInputParams {
+	extends BaseInputParams, NumberTextInputParams {
 	view: 'camerawheel';
 
 	amount?: number;
