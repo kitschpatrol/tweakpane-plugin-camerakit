@@ -1,8 +1,10 @@
 {
 	"extends": "@kitschpatrol/typescript-config",
 	"compilerOptions": {
+		// Shipped JavaScript stays within ES2022 for browsers, so type checks reject newer library APIs.
 		"target": "ES2022",
 		"lib": ["ES2022", "DOM"],
+		// Vite's client types declare the `?inline` Sass import in src/index.ts.
 		"types": ["node", "vite/client"]
 	}
 }

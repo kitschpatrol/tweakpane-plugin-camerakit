@@ -48,7 +48,7 @@ See the [upstream readme](https://github.com/tweakpane/plugin-camerakit/blob/mai
 
 The plugin requires [Tweakpane 4](https://www.npmjs.com/package/tweakpane).
 
-If you're using the `/lite` export path of the plugin without a bundler, you'll need to provide the [@tweakpane/core](https://www.npmjs.com/package/@tweakpane/core) library as well.
+The `/lite` export path imports [@tweakpane/core](https://www.npmjs.com/package/@tweakpane/core) rather than bundling it. It is installed as a dependency of this plugin, so only projects without a bundler need to provide it directly.
 
 If you're using Svelte 4 or 5 as a front-end library, take a look at [Svelte Tweakpane UI](https://kitschpatrol.com/svelte-tweakpane-ui), which wraps Tweakpane in a set of Svelte-friendly components, including the [`<Ring>`](https://kitschpatrol.com/svelte-tweakpane-ui/docs/components/ring) and [`<Wheel>`](https://kitschpatrol.com/svelte-tweakpane-ui/docs/components/wheel) controls from this plugin.
 
@@ -66,7 +66,7 @@ npm install @kitschpatrol/tweakpane-plugin-camerakit
 
 ## Usage
 
-```js
+```ts
 import * as TweakpanePluginCamerakit from '@kitschpatrol/tweakpane-plugin-camerakit'
 import { Pane } from 'tweakpane'
 
