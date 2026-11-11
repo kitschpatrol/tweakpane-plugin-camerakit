@@ -1,6 +1,7 @@
-import {RingInputPlugin} from './plugin-ring.js';
-import {WheelInputPlugin} from './plugin-wheel.js';
+import { RingInputPlugin } from './plugin-ring'
+import { WheelInputPlugin } from './plugin-wheel'
+import pluginCss from './styles/plugin.scss?inline'
 
-export const id = 'camerakit';
-export const css = '__css__';
-export const plugins = [RingInputPlugin, WheelInputPlugin];
+export const id = 'camerakit'
+export const css: string = pluginCss
+export const plugins = [RingInputPlugin, WheelInputPlugin]

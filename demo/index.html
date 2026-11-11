@@ -1,49 +1,37 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
-		<meta
-			name="viewport"
-			content="initial-scale=1,minimum-scale=1,maximum-scale=1"
-		/>
-		<title></title>
+		<meta name="viewport" content="initial-scale=1,minimum-scale=1,maximum-scale=1" />
+		<title>Tweakpane camerakit demo</title>
 		<style>
 			body {
 				background-color: black;
 			}
 		</style>
-		<script type="importmap">
-			{
-				"imports": {
-					"tweakpane": "../node_modules/tweakpane/dist/tweakpane.js",
-					"@tweakpane/core": "../node_modules/@tweakpane/core/dist/index.js",
-					"tweakpane-plugin-camerakit": "../dist/tweakpane-plugin-camerakit.js"
-				}
-			}
-		</script>
 	</head>
 	<body>
 		<script type="module">
-			import {Pane} from 'tweakpane';
-			import * as TweakpaneCamerakitPlugin from 'tweakpane-plugin-camerakit';
+			import { Pane } from 'tweakpane'
+			import * as TweakpanePluginCamerakit from '/src/index.ts'
 
 			const params = {
 				fNumber: 1.8,
 				focalLength: 50,
 				iso: 1600,
-			};
-			const pane = new Pane();
-			pane.registerPlugin(TweakpaneCamerakitPlugin);
+			}
+			const pane = new Pane()
+			pane.registerPlugin(TweakpanePluginCamerakit)
 
 			const f1 = pane.addFolder({
 				title: 'default',
-			});
+			})
 			f1.addBinding(params, 'focalLength', {
 				view: 'cameraring',
 				// appearance of ring view
 				series: 0,
 				label: 'ring-0',
-			});
+			})
 			f1.addBinding(params, 'fNumber', {
 				view: 'cameraring',
 				series: 1,
@@ -58,12 +46,12 @@
 				},
 				step: 0.02,
 				label: 'ring-1',
-			});
+			})
 			f1.addBinding(params, 'focalLength', {
 				view: 'cameraring',
 				series: 2,
 				label: 'ring-2',
-			});
+			})
 			f1.addBinding(params, 'iso', {
 				view: 'camerawheel',
 
@@ -72,18 +60,18 @@
 				min: 100,
 				step: 100,
 				label: 'wheel',
-			});
+			})
 
 			const f2 = pane.addFolder({
 				title: 'wide',
-			});
+			})
 			f2.addBinding(params, 'focalLength', {
 				view: 'cameraring',
 				series: 0,
 				// hides text input
 				wide: true,
 				label: 'ring-0',
-			});
+			})
 			f2.addBinding(params, 'fNumber', {
 				view: 'cameraring',
 				series: 1,
@@ -95,13 +83,13 @@
 				wide: true,
 				step: 0.02,
 				label: 'ring-1',
-			});
+			})
 			f2.addBinding(params, 'focalLength', {
 				view: 'cameraring',
 				series: 2,
 				wide: true,
 				label: 'ring-2',
-			});
+			})
 			f2.addBinding(params, 'iso', {
 				view: 'camerawheel',
 				wide: true,
@@ -109,13 +97,13 @@
 				min: 100,
 				step: 100,
 				label: 'wheel',
-			});
+			})
 
 			pane.on('change', (ev) => {
-				console.log(ev);
-			});
+				console.log(ev)
+			})
 
-			window.pane = pane;
+			window.pane = pane
 		</script>
 	</body>
 </html>

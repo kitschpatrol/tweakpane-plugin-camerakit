@@ -1,52 +1,54 @@
+import type { Formatter, InputBindingPlugin } from '@tweakpane/core'
 import {
 	createNumberFormatter,
 	createNumberTextInputParamsParser,
 	createNumberTextPropsObject,
 	createPlugin,
-	Formatter,
 	getDecimalDigits,
-	InputBindingPlugin,
 	numberFromUnknown,
 	parseNumber,
 	parseRecord,
 	ValueMap,
 	writePrimitive,
-} from '@tweakpane/core';
-
-import {RingController} from './controller/ring.js';
-import {RingTextController} from './controller/ring-text.js';
-import {createConstraint, RingInputParams, RingSeries} from './util.js';
-import {RingUnit} from './view/ring.js';
+} from '@tweakpane/core'
+import type { RingInputParams, RingSeries } from './util'
+import type { RingUnit } from './view/ring'
+import { RingController } from './controller/ring'
+import { RingTextController } from './controller/ring-text'
+import { createConstraint } from './util'
 
 function parseSeries(value: unknown): RingSeries | undefined {
-	return value === 0 || value === 1 || value === 2 ? value : undefined;
+	switch (value) {
+		case 0:
+		case 1:
+		case 2: {
+			return value
+		}
+
+		default: {
+			return undefined
+		}
+	}
 }
 
-function getRingSeries(series: RingSeries | undefined): string | null {
-	return series !== undefined ? String(series) : '0';
+function getRingSeries(series: RingSeries | undefined): string {
+	return series === undefined ? '0' : String(series)
 }
 
 function createRingFormatter(ringUnit: RingUnit): Formatter<number> {
-	const f = createNumberFormatter(getDecimalDigits(ringUnit.value));
+	const f = createNumberFormatter(getDecimalDigits(ringUnit.value))
 	return (value: number): string => {
-		const text = f(value);
-		const ch = text.substr(0, 1);
-		const hasSign = ch === '-' || ch === '+';
-		return text + (hasSign ? ' ' : '');
-	};
+		const text = f(value)
+		const ch = text.slice(0, 1)
+		const hasSign = ch === '-' || ch === '+'
+		return text + (hasSign ? ' ' : '')
+	}
 }
 
-export const RingInputPlugin: InputBindingPlugin<
-	number,
-	number,
-	RingInputParams
-> = createPlugin({
-	id: 'input-ring',
-	type: 'input',
-
+export const RingInputPlugin: InputBindingPlugin<number, number, RingInputParams> = createPlugin({
 	accept(exValue: unknown, params) {
 		if (typeof exValue !== 'number') {
-			return null;
+			return null
 		}
 
 		const result = parseRecord<RingInputParams>(params, (p) => ({
@@ -60,54 +62,53 @@ export const RingInputPlugin: InputBindingPlugin<
 			}),
 			view: p.required.constant('cameraring'),
 			wide: p.optional.boolean,
-		}));
+		}))
 		return result
 			? {
 					initialValue: exValue,
 					params: result,
 				}
-			: null;
+			: null
 	},
 	binding: {
-		reader: (_args) => numberFromUnknown,
 		constraint: (args) => createConstraint(args.params),
+		reader: (_args) => numberFromUnknown,
 		writer: (_args) => writePrimitive,
 	},
 	controller(args) {
 		const ringUnit = args.params.unit ?? {
-			ticks: 5,
 			pixels: 40,
+			ticks: 5,
 			value: 10,
-		};
-		const ringFormatter = createRingFormatter(ringUnit);
-		const textPropsObj = createNumberTextPropsObject(
-			args.params,
-			args.initialValue,
-		);
+		}
+		const ringFormatter = createRingFormatter(ringUnit)
+		const textPropsObject = createNumberTextPropsObject(args.params, args.initialValue)
 
 		if (args.params.wide) {
 			return new RingController(args.document, {
 				formatters: {
 					ring: ringFormatter,
-					text: textPropsObj.formatter,
+					text: textPropsObject.formatter,
 				},
-				seriesId: getRingSeries(args.params.series) ?? '0',
+				seriesId: getRingSeries(args.params.series),
 				tooltipEnabled: true,
 				unit: ringUnit,
 				value: args.value,
 				viewProps: args.viewProps,
-			});
+			})
 		}
 
-		const textProps = ValueMap.fromObject(textPropsObj);
+		const textProps = ValueMap.fromObject(textPropsObject)
 		return new RingTextController(args.document, {
 			parser: parseNumber,
-			ringFormatter: ringFormatter,
-			ringUnit: ringUnit,
-			seriesId: getRingSeries(args.params.series) ?? '0',
-			textProps: textProps,
+			ringFormatter,
+			ringUnit,
+			seriesId: getRingSeries(args.params.series),
+			textProps,
 			value: args.value,
 			viewProps: args.viewProps,
-		});
+		})
 	},
-});
+	id: 'input-ring',
+	type: 'input',
+})

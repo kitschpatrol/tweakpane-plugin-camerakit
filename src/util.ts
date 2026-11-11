@@ -1,44 +1,36 @@
-import {
-	BaseInputParams,
-	CompositeConstraint,
-	Constraint,
-	createRangeConstraint,
-	createStepConstraint,
-	NumberTextInputParams,
-} from '@tweakpane/core';
+import type { BaseInputParams, Constraint, NumberTextInputParams } from '@tweakpane/core'
+import { CompositeConstraint, createRangeConstraint, createStepConstraint } from '@tweakpane/core'
+import type { RingUnit } from './view/ring'
 
-import {RingUnit} from './view/ring.js';
+export type RingSeries = 0 | 1 | 2
 
-export type RingSeries = 0 | 1 | 2;
+export type RingInputParams = BaseInputParams &
+	NumberTextInputParams & {
+		series?: RingSeries
+		unit?: RingUnit
+		view: 'cameraring'
+		wide?: boolean
+	}
 
-export interface RingInputParams
-	extends BaseInputParams, NumberTextInputParams {
-	view: 'cameraring';
+export type WheelInputParams = BaseInputParams &
+	NumberTextInputParams & {
+		amount?: number
+		view: 'camerawheel'
+		wide?: boolean
+	}
 
-	series?: RingSeries;
-	unit?: RingUnit;
-	wide?: boolean;
-}
-
-export interface WheelInputParams
-	extends BaseInputParams, NumberTextInputParams {
-	view: 'camerawheel';
-
-	amount?: number;
-	wide?: boolean;
-}
-
-export function createConstraint(
-	params: RingInputParams | WheelInputParams,
-): Constraint<number> {
-	const constraints = [];
-	const cr = createRangeConstraint(params);
+/** Compose range and step constraints for ring and wheel values. */
+export function createConstraint(params: RingInputParams | WheelInputParams): Constraint<number> {
+	const constraints = []
+	const cr = createRangeConstraint(params)
 	if (cr) {
-		constraints.push(cr);
+		constraints.push(cr)
 	}
-	const cs = createStepConstraint(params);
+
+	const cs = createStepConstraint(params)
 	if (cs) {
-		constraints.push(cs);
+		constraints.push(cs)
 	}
-	return new CompositeConstraint(constraints);
+
+	return new CompositeConstraint(constraints)
 }

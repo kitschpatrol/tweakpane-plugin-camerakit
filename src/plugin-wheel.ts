@@ -1,31 +1,24 @@
+import type { InputBindingPlugin } from '@tweakpane/core'
 import {
 	createNumberFormatter,
 	createNumberTextInputParamsParser,
 	createNumberTextPropsObject,
 	createPlugin,
-	InputBindingPlugin,
 	numberFromUnknown,
 	parseNumber,
 	parseRecord,
 	ValueMap,
 	writePrimitive,
-} from '@tweakpane/core';
+} from '@tweakpane/core'
+import type { WheelInputParams } from './util'
+import { RingController } from './controller/ring'
+import { RingTextController } from './controller/ring-text'
+import { createConstraint } from './util'
 
-import {RingController} from './controller/ring.js';
-import {RingTextController} from './controller/ring-text.js';
-import {createConstraint, WheelInputParams} from './util.js';
-
-export const WheelInputPlugin: InputBindingPlugin<
-	number,
-	number,
-	WheelInputParams
-> = createPlugin({
-	id: 'input-wheel',
-	type: 'input',
-
+export const WheelInputPlugin: InputBindingPlugin<number, number, WheelInputParams> = createPlugin({
 	accept(exValue: unknown, params) {
 		if (typeof exValue !== 'number') {
-			return null;
+			return null
 		}
 
 		const result = parseRecord<WheelInputParams>(params, (p) => ({
@@ -34,56 +27,55 @@ export const WheelInputPlugin: InputBindingPlugin<
 			amount: p.optional.number,
 			view: p.required.constant('camerawheel'),
 			wide: p.optional.boolean,
-		}));
+		}))
 		return result
 			? {
 					initialValue: exValue,
 					params: result,
 				}
-			: null;
+			: null
 	},
 	binding: {
-		reader: (_args) => numberFromUnknown,
 		constraint: (args) => createConstraint(args.params),
+		reader: (_args) => numberFromUnknown,
 		writer: (_args) => writePrimitive,
 	},
 	controller(args) {
-		const ringFormatter = createNumberFormatter(0);
-		const textPropsObj = createNumberTextPropsObject(
-			args.params,
-			args.initialValue,
-		);
+		const ringFormatter = createNumberFormatter(0)
+		const textPropsObject = createNumberTextPropsObject(args.params, args.initialValue)
 
 		if (args.params.wide) {
 			return new RingController(args.document, {
 				formatters: {
 					ring: ringFormatter,
-					text: textPropsObj.formatter,
+					text: textPropsObject.formatter,
 				},
 				seriesId: 'w',
 				tooltipEnabled: true,
 				unit: {
-					ticks: 10,
 					pixels: 40,
-					value: (args.params.amount ?? textPropsObj.pointerScale) * 40,
+					ticks: 10,
+					value: (args.params.amount ?? textPropsObject.pointerScale) * 40,
 				},
 				value: args.value,
 				viewProps: args.viewProps,
-			});
+			})
 		}
 
 		return new RingTextController(args.document, {
 			parser: parseNumber,
-			ringFormatter: ringFormatter,
+			ringFormatter,
 			ringUnit: {
-				ticks: 10,
 				pixels: 40,
-				value: (args.params.amount ?? textPropsObj.pointerScale) * 40,
+				ticks: 10,
+				value: (args.params.amount ?? textPropsObject.pointerScale) * 40,
 			},
 			seriesId: 'w',
-			textProps: ValueMap.fromObject(textPropsObj),
+			textProps: ValueMap.fromObject(textPropsObject),
 			value: args.value,
 			viewProps: args.viewProps,
-		});
+		})
 	},
-});
+	id: 'input-wheel',
+	type: 'input',
+})
