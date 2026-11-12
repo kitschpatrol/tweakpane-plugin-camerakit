@@ -5,13 +5,38 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [0.3.1-fork.2] - 2026-11-11
+
+### Added
+
+- Add a `/lite` entry and minified lite build that keep `@tweakpane/core` external for sharing across plugins.
+- Export `RingInputParams`, `RingSeries`, `WheelInputParams`, and `RingUnit` from the package entry.
+
+### Changed
+
+- Bundle `@tweakpane/core` in the default and minified ESM builds and mark the package as side-effect-free for tree shaking.
+- **Breaking:** Restrict package imports to the root, `/lite`, and `/package.json`, and consolidate declarations into `dist/tweakpane-plugin-camerakit.d.ts`, replacing internal `dist` import paths.
+- **Breaking:** Raise the shipped JavaScript target from ES2015 to ES2022.
+- **Breaking:** Limit declared Node.js support to versions 18, 20, 22, 24, and 26 or newer.
+
+### Documentation
+
+- Add installation and plugin-registration examples, document public type exports and `/lite` dependency handling, and link upstream usage and Svelte controls.
+- Add contribution guidance and document the shared linting and formatting workflow.
 
 ### Maintenance
 
 - Update the pinned pnpm version to 12.16.1.
 - Update the GitHub release changelog action to 2.0.10 and release action to 3.0.3.
 - Switch npm release authentication from a stored token to a one-time password retrieved from 1Password.
+- Migrate bundling, declaration generation, and SCSS processing to tsdown, add publint and Are the Types Wrong? package checks, and remove automatic `prepare` builds and ZIP asset scripts.
+- Adopt `@kitschpatrol/shared-config` with `ksc lint` and `ksc fix`, shared tool configuration, and VS Code integration.
+- Move the browser demo to Vite with live reload through `pnpm dev`.
+- Add Vitest and happy-dom tests for registration, styles, parameter validation, ring and wheel interactions, constraints, change events, and lifecycle behavior.
+- Add build, lint, and test CI on Linux, macOS, and Windows.
+- Add a monthly dependency-maintenance workflow using `ksc-update`.
+- Integrate chagent into release version bumps, upgrade the release changelog action to v3, and build after versioning without automatically running tests in the release script.
+- Refresh development dependencies and GitHub Actions, including Sass, Vite, Vitest, and Fork Tender, and update pnpm to 12.18.0.
 
 ## [0.3.1-fork.1] - 2026-10-15
 
@@ -222,7 +247,6 @@ No notable changes.
 
 - Set up development and minified builds, linting, formatting, watch mode, and versioned release archives.
 
-[Unreleased]: https://github.com/kitschpatrol/tweakpane-plugin-camerakit/compare/0.3.1-fork.1...HEAD
 [0.1.0]: https://github.com/kitschpatrol/tweakpane-plugin-camerakit/releases/tag/0.1.0
 [0.1.1]: https://github.com/kitschpatrol/tweakpane-plugin-camerakit/compare/0.1.0...0.1.1
 [0.1.2]: https://github.com/kitschpatrol/tweakpane-plugin-camerakit/compare/0.1.1...0.1.2
@@ -241,3 +265,4 @@ No notable changes.
 [0.3.1-beta.2]: https://github.com/kitschpatrol/tweakpane-plugin-camerakit/compare/0.3.1-beta.1...0.3.1-beta.2
 [0.3.1-beta.3]: https://github.com/kitschpatrol/tweakpane-plugin-camerakit/compare/0.3.1-beta.2...0.3.1-beta.3
 [0.3.1-fork.1]: https://github.com/kitschpatrol/tweakpane-plugin-camerakit/compare/0.3.1-beta.3...0.3.1-fork.1
+[0.3.1-fork.2]: https://github.com/kitschpatrol/tweakpane-plugin-camerakit/compare/0.3.1-fork.1...0.3.1-fork.2
